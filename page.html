@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang = "pl">
+	<head>
+		<meta charset = "utf-8" />
+		<title>Game of life</title>
+		<meta name = "desrtiption" content = "Simple simulation of life: 'Game of life'"/>
+		<meta name = "keywords" content = "game of life, game, life, simulation, simulation of life, html, javascript, css"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<link rel = "stylesheet" href="styles.css" type = "text/css" />
+		<script src = "JS/updating_cells.js"> </script>
+		<script src = "JS/simulation.js"> </script>
+		<script src = "JS/drawing_tools.js"> </script>
+		<script src = "JS/input_events.js"> </script>
+		<script src = "JS/input_interface.js"> </script>
+		<script src = "JS/initialization.js"> </script>
+		<script src = "main.js"> </script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+		<style>		
+		body
+			{
+				background-color: rgb(100, 100, 255);
+			}
+				#div_container
+				{
+					width: min-content;
+					margin-left: auto;
+					margin-right: auto;
+					text-align: center;
+				}
+					#div_top
+					{
+						width:1000px;
+						margin-left: auto;
+						margin-right: auto;
+					}
+						#div_top_head
+						{
+							padding-top: 0.5%;
+							padding-bottom: 0.5%;
+						}
+							#div_about
+							{
+								background-color: rgb(188, 188, 255);
+								margin-bottom: 0.5%;
+								padding: 0.5%;
+								text-align: justify;
+								text-indent: 50px;
+								padding: 15px;
+							}
+							#div_instruction
+							{
+								background-color: rgb(188, 188, 255);
+								padding: 0.5%;
+								text-indent: 50px;
+								font-weight: bold;
+								font-family: Arial;
+								font-size: 18px;
+								padding: 15px;
+							}
+						#div_top_body
+						{
+							padding-top: 0.5%;
+							padding-bottom: 0.5%;
+						}
+							#div_parameters
+							{
+								background-color: rgb(188, 188, 255);
+								width: 48.75%;
+								float: left;
+								margin-right: 0.5%;
+								padding: 0.5%;
+								height: 220px;
+								padding-top: 20px;
+								font-weight: bold;
+								font-family: Arial;
+							}
+							#div_tools
+							{
+								background-color: rgb(188, 188, 255);
+								width: 48.75%;
+								float: left;
+								padding: 0.5%;
+								height: 220px;
+								padding-top: 20px;
+							}
+					/*#div_canvas
+					{
+						
+					}*/
+			.button_image
+			{
+				margin: 5px;
+				text-decoration: none;
+			}
+			.p_simulation_informations
+			{
+				margin: 2px;
+				color: rgb(27, 27, 66);
+				font-weight: bold;
+				font-family: Arial;
+			}
+			</style>
+	</head>
+	<body>
+		<div id = "div_container">
+			<div id = "div_top">
+				<div id = "top_head">
+					<div id = "div_about">
+						"The
+						<a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank" title="Wikipedia: game of life">Game of Life</a>
+						, also known simply as Life, is a cellular automaton devised by the British
+						mathematician John Horton Conway in 1970. It is a zero-player game, meaning
+						that its evolution is determined by its initial state, requiring no further
+						input. One interacts with the Game of Life by creating an initial configuration
+						and observing how it evolves. It is Turingcomplete and can simulate a universal
+						constructor or any other Turing machine." </br>
+						<div style = "text-align: right;"><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank" title="Wikipedia: game of life">Wikipedia</a></div>
+						<p>The game takes place on an infinite board divided into square cells. Cells can be "alive" or "dead"("1" or "0" - white or black).
+						Succesive generations are moments of time. There are 2 rules of calculating next generation: </br>
+						- "dead" cell which has exacly 3 "alived" neighbors, becomes "alived".</br>
+						- "alived" cell with 2 or 3 "alived" neighbors stays "alived"; in another case cell dies.</p>
+					</div>
+					<div id = "div_instruction">
+						To create cell(s) press and hold <u>left mouse button</u> and drag mouse. To kill cell(s) use <u>right mouse button</u>.
+					</div>
+				</div>
+				<div id = "div_top_body">
+					<div id = "div_parameters">
+						Width of board [cells]: <input type="text" id="input_x_cells"> (current: <a id="a_current_cells_x">80</a>)</br></br>
+						Height of board [cells]: <input type="text" id="input_y_cells"> (current: <a id="a_current_cells_y">80</a>)</br></br>
+						Cell width [pixels]: <input type="text" id="input_cell_width"> (current: <a id="a_current_cell_width">10</a>)</br></br>
+						You will get canvas dimensions: width = <a id="a_cell_width">800</a>, height = <a id="a_cell_height">800</a></br></br>
+						<a href = "javascript:button_submit();" class = "button_image">
+							<img src="img/icon_submit.png" title="submit">
+						</a>
+					</div>
+					<div id = "div_tools">
+						</br></br></br>
+						<a href = "javascript:button_undo();" class = "button_image" id = "button_undo">
+							<img src="img/icon_undo.png" title="undo (max to 30 actions) [ctrl+Z]">
+						</a>
+						<a href = "javascript:button_redo();" class = "button_image" id = "button_redo">
+							<img src="img/icon_redo.png" title="redo [ctrl+Y]">
+						</a>
+						<a href = "javascript:button_start();" class = "button_image" id = "button_start_stop">
+							<img src="img/icon_start.png" title="start [S]" id = "image_start_stop">
+						</a>
+						<a href = "javascript:button_speedDown();" class = "button_image">
+							<img src="img/icon_speedDown.png" title="speed down [Q]">
+						</a>
+						<a href = "javascript:button_speedUp();" class = "button_image">
+							<img src="img/icon_speedUp.png" title="speed up [E]">
+						</a>
+						<a href = "javascript:button_backTo1Gen();" class = "button_image">
+							<img src="img/icon_backTo1Gen.png" title="go back to first generation [R]">
+						</a>
+						<a href = "javascript:button_clear();" class = "button_image">
+							<img src="img/icon_clear.png" title="clear board and start from first generation [C]">
+						</a>
+						<p class="p_simulation_informations" id="p_start_status">Simulation stopped</p>
+						<p class="p_simulation_informations" id="p_speed">Speed: 99999</p>
+						<p class="p_simulation_informations" id="p_generation">Generation = 1</p>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+			<div id = "div_canvas">
+				<canvas id="canv"></canvas>
+			</div>
+		</div>
+
+
+		
+
+	
+	</body>
+</html>
