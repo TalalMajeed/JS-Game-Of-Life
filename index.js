@@ -1,27 +1,46 @@
 
 var canvas = document.getElementById("display");
 canvas.style.backgroundColor = "black";
+var rect = canvas.getBoundingClientRect();
+var rectx = parseInt(rect.left);
+var recty = parseInt(rect.top);
 
 var MOUSE = 0;
 var MX = 0;
 var MY = 0;
 var ACTIVE = -1;
+var TICK = parseInt(document.getElementById("tick").value);
+
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  }
 
 document.getElementById("start").addEventListener("click",(e)=>{
     ACTIVE *= -1;
     if(ACTIVE == -1) {
-        document.getElementById("start").innerHTML = "START";
+        document.getElementById("start").innerHTML = "Start";
     }
     else {
-        document.getElementById("start").innerHTML = "STOP";
+        document.getElementById("start").innerHTML = "Stop";
+        A_STRUCTURE = U_STRUCTURE.map(function(arr) {
+            return arr.slice();
+        });
+        TICK = parseInt(document.getElementById("tick").value);
     }
 })
 
-document.getElementById("reset").addEventListener("click",(e)=>{
+document.getElementById("s1").addEventListener("click",(e)=>{
+    TICK -= 2;
+})
+
+document.getElementById("back").addEventListener("click",(e)=>{
+    U_STRUCTURE = A_STRUCTURE.map(function(arr) {
+        return arr.slice();
+    });
     ACTIVE = -1;
-    document.getElementById("start").innerHTML = "START";
-    U_STRUCTURE = [];
+    document.getElementById("start").innerHTML = "Start";
     N_STRUCTURE = [];
+    A_STRUCTURE = [];
     for(i=0;i<WIDTH/UNIT;i++) {
         SUB = [];
         for(j=0;j<HEIGHT/UNIT;j++) {
@@ -35,16 +54,45 @@ document.getElementById("reset").addEventListener("click",(e)=>{
     });
 })
 
-document.addEventListener('keydown',(e)=>{
-    ACTIVE *= -1;
-},true)
+document.getElementById("s2").addEventListener("click",(e)=>{
+    TICK += 2;
+})
 
+document.getElementById("reset").addEventListener("click",(e)=>{
+    ACTIVE = -1;
+    document.getElementById("start").innerHTML = "Start";
+    U_STRUCTURE = [];
+    N_STRUCTURE = [];
+    A_STRUCTURE = [];
+    for(i=0;i<WIDTH/UNIT;i++) {
+        SUB = [];
+        for(j=0;j<HEIGHT/UNIT;j++) {
+            SUB.push(0)
+        }
+        U_STRUCTURE.push(SUB);
+    }
+    
+    N_STRUCTURE = U_STRUCTURE.map(function(arr) {
+        return arr.slice();
+    });
+    A_STRUCTURE = U_STRUCTURE.map(function(arr) {
+        return arr.slice();
+    });
+})
+
+console.log(document.getElementById("display"));
 document.addEventListener('mousemove', onMouseUpdate, false);
 document.addEventListener('mouseenter', onMouseUpdate, false);
-    
+
+window.addEventListener('resize', function(event) {
+    rect = canvas.getBoundingClientRect();
+    rectx = parseInt(rect.left);
+    recty = parseInt(rect.top);
+}, true);
+
 function onMouseUpdate(e) {
-  MX = e.pageX;
-  MY = e.pageY;
+    MX = e.pageX - rectx;
+    MY = e.pageY - recty;
 }
 
 canvas.addEventListener('mousedown', (e)=>{
@@ -72,6 +120,7 @@ var j = 0;
 
 var U_STRUCTURE = [];
 var N_STRUCTURE = [];
+var A_STRUCTURE = [];
 var SUB = [];
 for(i=0;i<WIDTH/UNIT;i++) {
     SUB = [];
@@ -82,6 +131,10 @@ for(i=0;i<WIDTH/UNIT;i++) {
 }
 
 N_STRUCTURE = U_STRUCTURE.map(function(arr) {
+    return arr.slice();
+});
+
+A_STRUCTURE = U_STRUCTURE.map(function(arr) {
     return arr.slice();
 });
 
@@ -239,8 +292,10 @@ function updateUnits() {
 }
 
 function Progress() {
-    if(TIMER > 5 && ACTIVE == 1) {
-        updateUnits();
+    if(TIMER > TICK) {
+        if(ACTIVE == 1) {
+            updateUnits();
+        }
         TIMER = 0;
     }   
 }

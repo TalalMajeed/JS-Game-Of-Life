@@ -1,37 +1,111 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Game of Life</title>
-    </head>
-    <body>
-        <canvas id="display" width="800" height="800" style="border:1px solid #000000"></canvas>
-        <p>CONTROLS</p>
-        <button id="start" style="display:block;">START</button>
-        <button id="reset" style="display:block;">RESET</button>
-        <p>DEFAULT WIDTH: 800px</p>
-        <p>DEFAULT HEIGHT: 800px</p>
-        <p>UNIT SCALE: 10px</p>
-        <p>TIMER: 5 ticks</p>
-        <div>
-            The Game of Life , also known simply as Life, is a cellular automaton
-            devised by the British mathematician John Horton Conway in 1970. It is
-            a zero-player game, meaning that its evolution is determined by its
-            initial state, requiring no further input. One interacts with the Game
-            of Life by creating an initial configuration and observing how it
-            evolves. It is Turingcomplete and can simulate a universal constructor
-            or any other Turing machine.
-          </div>
-          <div>
-            The game takes place on an infinite board divided into square cells.
-            Cells can be "alive" or "dead"("1" or "0" - white or black). Succesive
-            generations are moments of time. There are 2 rules of calculating next
-            generation:<br />
-            - "dead" cell which has exacly 3 "alived" neighbors, becomes
-            "alived".<br />
-            - "alived" cell with 2 or 3 "alived" neighbors stays "alived";<br />
-            in another case cell dies.
-          </div>
-        <script src="./index.js">
-        </script>
-    </body>
-</html>
+<head>
+    <title>The Game of Life</title>
+</head>
+<body>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: rgb(230,230,230);
+            font-family: "Century Gothic";
+        }
+        .heading {
+            color: navy;
+            text-align: center;
+            margin:40px auto 40px auto;
+        }
+        canvas {
+            display: block;
+            background-color: black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .controls{
+            display: block;
+            width: 800px;
+            height: 300px;
+            margin: 20px auto 20px auto;
+            background-color: white;
+            overflow: hidden;
+        }
+        .about {
+            display: block;
+            width: 800px;
+            height: 350px;
+            margin: 20px auto 20px auto;
+            background-color: white;
+            overflow: hidden;
+        }
+        section .heading {
+            text-align: center;
+            font-size: 30px;
+        }
+        section p {
+            text-align: center;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .option {
+            margin-top:10px;
+            margin-bottom: 10px;
+            margin-left:27px;
+            margin-right: 27px;
+        }
+        .option div {
+            display: inline-block;
+            width: 120px;
+        }
+        .option input {
+            outline: none;
+            border: 1px solid navy;
+            height: 20px;
+            vertical-align: center;
+        }
+        .option .btn {
+            width: 120px;
+            height:25px;
+        }
+        .btn2 {
+            width: 245px;
+            height:25px;
+            margin-left: 55px;
+        }
+    </style>
+    <h1 class="heading">The Game of Life</h1>
+    <canvas id="display" width="800" height="800" style="border:1px solid #000000"></canvas>
+    <section class="controls">
+        <h2 class="heading">Controls</h2>
+        <p>Use the Left mouse button to create live units. You can delete units using the right mouse button.</p>
+        <div class="option">
+            <div>Width of Units:</div>
+            <input id="unit" type="number" value="80" disabled/>
+            <div>Default: 80</div>
+        </div>
+        <div class="option">
+            <div>Update Time:</div>
+            <input id="tick" type="number" value="15" disabled/>
+            <div>Default: 15</div>
+            <button id="s1" class="btn">Speed Up</button>
+            <button id="s2" class="btn">Speed Down</button>
+        </div>
+        <div class="option">
+            <div>Game Status:</div>
+            <button id="start" class="btn">Start</button>
+            <button id="reset" class="btn">Reset</button>
+            <button id="back" class="btn2">Go back to 1st Generation</button>
+        </div>
+    </section>
+    <section class="about">
+        <h2 class="heading">About</h2>
+        <p style="text-align:left">The Game of Life, also known as the Zero player Game is a game created by Cambridge Mathemetician John Conway in 1970. This game consists of a grid of cells which can be alive or dead. A pattern of units is given as input to the game. The game state changes and evolves by itself into a series of patterns.
+        </p>
+        <p style="text-align:left">The game evolves on the basis of two rules:</p>
+        <ul>
+            <li>If two or three alive units surround an alive unit, it will remain alive. Otherwise it will die.</li>
+            <li>If three units surround a dead unit, it will become alive.</li>
+        </ul>
+    </section>
+    <script src="./index.js">
+    </script>
+</body>
